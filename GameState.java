@@ -11,12 +11,23 @@ public class GameState {
 		return numPlayers;
 	}
 
+	public static void addPiece(GamePiece piece) {
+		allPieces.add(piece);
+	}
+
+	public static GameBoard createBoard(int length, int width) {
+		if (board == null) {
+			GameBoard newBoard = new GameBoard(length, width);
+			board = newBoard;
+		}
+		return board;
+	}
+
 	public static ArrayList<GamePiece> getAllPieces() {
 		return allPieces;
 	}
 
-	public static GameBoard createBoard(int length, int width) {
-		GameBoard board = new GameBoard(length, width);
+	public static GameBoard getBoard() {
 		return board;
 	}
 

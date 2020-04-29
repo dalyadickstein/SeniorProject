@@ -20,7 +20,10 @@ public class Server {
 
 	public void connect() {
 		try {
-			System.out.println("Starting up server on port " + port);
+			System.out.println(
+				"Starting up server on port " + port + ". " 
+				+ "Waiting for connection from client.\n"
+			);
 			ServerSocket serverSkt = new ServerSocket(port);
 			Socket clientSkt = serverSkt.accept();
 			PrintWriter out =
@@ -35,18 +38,15 @@ public class Server {
 			// take turns
 			int numPlayers = players.size();
 			while (!handler.gameEnded()) {
-				System.out.println("The game must go on.");
 				for (int i = 0; i < numPlayers; i++) {
-					System.out.println("Player " + i + " turn.");
 					if (i == 0) { 
-						System.out.println("Server's turn.");
 						handler.takeServerTurn(players.get(i));
 					} else {
-						System.out.println("Client's turn.");
 						handler.takeClientTurn(out, in, players.get(i));
 					}
 				}
 			}
+			handler.handleEndgame(out, in);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

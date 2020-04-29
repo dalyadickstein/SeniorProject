@@ -26,19 +26,23 @@ public class Client {
 				+ hostName
 				+ " on port "
 				+ port
+				+ ".\n"
 			);
 			while ((fromServer = in.readLine()) != null) {
-				System.out.println("Got stuff from server.");
-				System.out.println(fromServer);
-				if (fromServer.equals("Bye."))
-					break;
-				fromUser = stdIn.readLine();
-				if (fromUser != null) {
-					out.println(fromUser);
+				// Response expected if message begins with "QQ"
+				if (
+					fromServer.length() >= 3
+					&& fromServer.substring(0,3).equals("QQ:")
+				) {
+					System.out.println(fromServer.substring(3));
+					fromUser = stdIn.readLine();
+					if (fromUser != null) {
+						out.println(fromUser);
+					}
+				} else {
+					System.out.println(fromServer);
 				}
-				System.out.println("Finished one iteration of client");
 			}
-			System.out.println("Nothing more from server.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

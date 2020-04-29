@@ -16,6 +16,8 @@ public class TttServerHandler implements ServerHandler {
 		return (winner != -1);
 	}
 
+	public void handleEndgame(PrintWriter out, BufferedReader in) {}
+
 	public void takeClientTurn(
 		PrintWriter out, 
 		BufferedReader in,
@@ -26,7 +28,7 @@ public class TttServerHandler implements ServerHandler {
 
 	public void takeServerTurn(Player player) {
 		System.out.print("Choose your tile (0-9): ");
-		
+
 	}
 
 	private int getWinner() {

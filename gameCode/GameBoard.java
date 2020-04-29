@@ -41,16 +41,26 @@ public class GameBoard {
 		return board.get(x).get(y).isEmpty();
 	}
 
-	// Returns the first piece owned by pNum in a given square
-	public GamePiece getPieceByPlayerNumAndCoords(int pNum, int x, int y) {
+	// Returns the first piece owned by player in a given square
+	public GamePiece getPieceByPlayerAndCoords(Player player, int x, int y) {
 		ArrayList<GamePiece> pieces = getContents(x, y);
 		int numPieces = pieces.size();
 		for (int i = 0; i < numPieces; i++) {
-			if (pieces.get(i).getOwner().getPlayerNum() == pNum) {
+			if (
+				pieces.get(i).getOwner().getPlayerNum() == player.getPlayerNum()
+			) {
 				return pieces.get(i);
 			}
 		}
 		return null;
+	}
+
+	// Checks if the player occupies a piece in a given square
+	public boolean playerOccupies(Player player, int x, int y) {
+		if (isEmpty(x,y)) {
+			return false;
+		}
+		return getPieceByPlayerAndCoords(player, x, y) != null;
 	}
 
 	// Moves a piece to square x,y. Returns true if allowed and false if not.

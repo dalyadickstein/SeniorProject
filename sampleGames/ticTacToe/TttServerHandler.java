@@ -27,11 +27,36 @@ public class TttServerHandler implements ServerHandler {
 		return (winner != -1);
 	}
 
-	public void handleEndgame(PrintWriter out, BufferedReader in) {}
+	public void handleEndgame(PrintWriter out, BufferedReader in) {
+		if (winner == 0) {
+			System.out.println("You won!\n");
+			out.println("You lose! Good day, sir!\n");
+		} else if (winner == 1) {
+			out.println("You won!\n");
+			System.out.println("You lose! Good day, sir!\n");
+		} else {
+			System.out.println("Tie game.\n");
+			out.println("Tie game.\n");
+		}
+	}
 
-	private void takeTurn(Player player, PrintWriter out, BufferedReader in) {
+	public void takeClientTurn(
+		PrintWriter out, 
+		BufferedReader in,
+		Player player
+	) {
+		out.println("You are O. Your opponent is X.");
+		takeTurn(out, in, player);
+	}
+
+	public void takeServerTurn(Player player) {
+		System.out.println("You are X. Your opponent is O.");
+		takeTurn(null, null, player);
+	}
+
+	private void takeTurn(PrintWriter out, BufferedReader in, Player player) {
 		GameBoard board = GameState.getBoard();
-		// out.println(getBoardPrint(board));
+		Server.printMsg(getBoardPrint(board), out, in);
 		Server.printMsg(
 			"QQ:Choose your tile (0-8, top left as 0 and top middle as 1): ",
 			out,
@@ -55,7 +80,7 @@ public class TttServerHandler implements ServerHandler {
 				Server.printMsg("QQ:Please enter an integer answer.", out, in);
 			}
 		}
-		// out.println(getBoardPrint(board));
+		Server.printMsg(getBoardPrint(board), out, in);
 		Server.printMsg("It's your opponent's turn.\n", out, in);
 	}
 
@@ -72,68 +97,6 @@ public class TttServerHandler implements ServerHandler {
 		return null;
 	}
 
-	public void takeClientTurn(
-		PrintWriter out, 
-		BufferedReader in,
-		Player player
-	) {
-		try {
-			GameBoard board = GameState.getBoard();
-			// out.println(getBoardPrint(board));
-			Server.printMsg("Testing printMsg.", out, in);
-			out.println(
-				"QQ:Choose your tile (0-8, top left as 0 and top middle as 1): "
-			);
-			int tile;
-			while (true) {
-				String input = in.readLine();
-				try {
-					tile = Integer.parseInt(input);
-					if (tile < 0 || tile > 8) {
-						out.println("QQ:Please choose a valid tile (0-8).");
-					} else if (!markTile(player, tile, board)) {
-						out.println("QQ:Please choose an empty tile.");
-					} else {
-						break;
-					}
-				} catch (NumberFormatException e) {
-					out.println("QQ:Please enter an integer answer.");
-				}
-			}
-			// out.println(getBoardPrint(board));
-			out.println("It's your opponent's turn.\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void takeServerTurn(Player player) {
-		GameBoard board = GameState.getBoard();
-		// System.out.println(getBoardPrint(board));
-		Server.printMsg("Testing printMsg.", null, null);
-		System.out.println(
-			"Choose your tile (0-8, top left as 0 and top middle as 1): "
-		);
-		int tile;
-		while (true) {
-			String input = scanner.nextLine();
-			try {
-				tile = Integer.parseInt(input);
-				if (tile < 0 || tile > 8) {
-					System.out.println("Please choose a valid tile (0-8).");
-				} else if (!markTile(player, tile, board)) {
-					System.out.println("Please choose an empty tile.");
-				} else {
-					break;
-				}
-			} catch (NumberFormatException e) {
-				System.out.println("Please enter an integer answer.");
-			}
-		}
-		// System.out.println(getBoardPrint(board));
-		System.out.println("It's your opponent's turn.\n");
-	}
-
 	// Mark tile for player. Return true if tile was empty, and false if not.
 	private boolean markTile(Player player, int tile, GameBoard board) {
 		int row = tile / 3;
@@ -143,10 +106,6 @@ public class TttServerHandler implements ServerHandler {
 		}
 		board.addPiece(new GamePiece(player), row, col);
 		return true;
-	}
-
-	private int getWinner() {
-		return winner;
 	}
 
 	private void checkWinner() {
@@ -159,7 +118,7 @@ public class TttServerHandler implements ServerHandler {
 			ArrayList<GamePiece> col2 = board.getContents(i,2);
 			if (col0.isEmpty() || col1.isEmpty() || col2.isEmpty()) {
 				fullBoard = false;
-				break;
+				continue;
 			}
 			int col0PlayerNum = col0.get(0).getOwner().getPlayerNum();
 			if (
@@ -177,7 +136,7 @@ public class TttServerHandler implements ServerHandler {
 			ArrayList<GamePiece> row2 = board.getContents(2,i);
 			if (row0.isEmpty() || row1.isEmpty() || row2.isEmpty()) {
 				fullBoard = false;
-				break;
+				continue;
 			}
 			int row0PlayerNum = row0.get(0).getOwner().getPlayerNum();
 			if (
@@ -222,5 +181,24 @@ public class TttServerHandler implements ServerHandler {
 		}
 		winner = -1; // -1 for no winner yet
 		return;
+	}
+
+	private String getBoardPrint(GameBoard board) {
+		String boardStr = "\nBoard:\n-------------\n";
+		ArrayList<Player> players = GameState.getPlayers();
+		for (int row = 0; row < 3; row++) {
+			boardStr += "|";
+			for (int col = 0; col < 3; col++) {
+				if (board.isEmpty(row,col)) {
+					boardStr += "   |";
+				} else if (board.playerOccupies(players.get(0), row, col)) {
+					boardStr += " x |";
+				} else {
+					boardStr += " o |";
+				}
+			}
+			boardStr += "\n-------------\n";
+		}
+		return boardStr;
 	}
 }

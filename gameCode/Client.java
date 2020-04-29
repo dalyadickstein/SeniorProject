@@ -22,7 +22,7 @@ public class Client {
 			String fromServer, fromUser;
 
 			System.out.println(
-				"Successfully connected to host "
+				"## Successfully connected to host "
 				+ hostName
 				+ " on port "
 				+ port

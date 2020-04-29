@@ -37,7 +37,7 @@ public class Server {
 	public void connect() {
 		try {
 			System.out.println(
-				"Starting up server on port " + port + ". " 
+				"## Starting up server on port " + port + ". " 
 				+ "Waiting for connection from client.\n"
 			);
 			ServerSocket serverSkt = new ServerSocket(port);
@@ -53,13 +53,17 @@ public class Server {
 			ArrayList<Player> players = handler.createPlayers();
 			// take turns
 			int numPlayers = players.size();
-			while (!handler.gameEnded()) {
-				System.out.println("Sanity");
+			boolean gameEnded = false;
+			while (!gameEnded) {
 				for (int i = 0; i < numPlayers; i++) {
 					if (i == 0) { 
 						handler.takeServerTurn(players.get(i));
 					} else {
 						handler.takeClientTurn(out, in, players.get(i));
+					}
+					if (handler.gameEnded()) {
+						gameEnded = true;
+						break;
 					}
 				}
 			}

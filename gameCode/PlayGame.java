@@ -1,4 +1,6 @@
 // For games without networking
+package gameCode;
+
 public class PlayGame {
 
 	public static void playGame(PlayGameListener listener, Player[] players) {

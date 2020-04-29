@@ -1,3 +1,5 @@
+package gameCode;
+
 import java.util.ArrayList;
 
 public class Player {
@@ -12,6 +14,7 @@ public class Player {
 	public Player(int playerNum, ArrayList<GamePiece> pieces) {
 		this.playerNum = playerNum;
 		this.pieces = pieces;
+		GameState.addPlayer(this);
 	}
 
 	public int getPlayerNum() {

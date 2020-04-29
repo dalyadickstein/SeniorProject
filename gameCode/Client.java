@@ -1,3 +1,5 @@
+package gameCode;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
@@ -18,16 +20,25 @@ public class Client {
 			BufferedReader stdIn = new BufferedReader(
 	            new InputStreamReader(System.in));
 			String fromServer, fromUser;
+
+			System.out.println(
+				"Successfully connected to host "
+				+ hostName
+				+ " on port "
+				+ port
+			);
 			while ((fromServer = in.readLine()) != null) {
+				System.out.println("Got stuff from server.");
 				System.out.println(fromServer);
 				if (fromServer.equals("Bye."))
 					break;
 				fromUser = stdIn.readLine();
 				if (fromUser != null) {
-					System.out.println("Client: " + fromUser);
 					out.println(fromUser);
 				}
+				System.out.println("Finished one iteration of client");
 			}
+			System.out.println("Nothing more from server.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -5,17 +5,22 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	BoardGame.java \
-	Client.java \
-	GameBoard.java \
-	GamePiece.java \
-	GameState.java \
-	PlayGame.java \
-	PlayGameListener.java \
-	Player.java \
-	Server.java \
-	ServerHandler.java \
-	TurnController.java
+	gameCode/BoardGame.java \
+	gameCode/Client.java \
+	gameCode/GameBoard.java \
+	gameCode/GamePiece.java \
+	gameCode/GameState.java \
+	gameCode/PlayGame.java \
+	gameCode/PlayGameListener.java \
+	gameCode/Player.java \
+	gameCode/Server.java \
+	gameCode/ServerHandler.java \
+	gameCode/TurnController.java \
+	sampleGames/ticTacToe/TttServerHandler.java \
+	sampleGames/ticTacToe/TicTacToe.java \
+	sampleGames/mathTest/MathServerHandler.java \
+	sampleGames/mathTest/MathTest.java
+
 
 default: classes
 

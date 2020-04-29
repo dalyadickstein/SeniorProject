@@ -1,27 +1,29 @@
+package gameCode;
+
 import java.awt.Point;
 
 public class GamePiece {
 
 	private String id;
-	private int owner;
+	private Player owner;
 	private Point coords;
 
-	public GamePiece(int owner) {
+	public GamePiece(Player owner) {
 		this(null, owner);
 	}
 
-	public GamePiece(String id, int owner) {
+	public GamePiece(String id, Player owner) {
 		this.id = id;
 		this.owner = owner;
 	}
 
-	public GamePiece(String id, int owner, int x, int y) {
+	public GamePiece(String id, Player owner, int x, int y) {
 		this.id = id;
 		this.owner = owner;
 		this.coords = new Point(x, y);
 	}
 
-	public int getOwner() {
+	public Player getOwner() {
 		return owner;
 	}
 

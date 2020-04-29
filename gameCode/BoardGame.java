@@ -1,4 +1,6 @@
 // have own game extend BoardGame and implement takeTurn and checkWinner
+package gameCode;
+
 public abstract class BoardGame {
 
 	public abstract void takeTurn(int player);

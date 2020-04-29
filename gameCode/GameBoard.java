@@ -1,3 +1,5 @@
+package gameCode;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ public class GameBoard {
 				board[i][j] = new ArrayList<GamePiece>();
 			}
 		}
+		GameState.setGameBoard(this);
 	}
 
 	public int getLength() {
@@ -28,6 +31,10 @@ public class GameBoard {
 	// Returns the list of pieces found in a given square
 	public ArrayList<GamePiece> getContents(int x, int y) {
 		return board[x][y];
+	}
+
+	public boolean isEmpty(int x, int y) {
+		return board[x][y].isEmpty();
 	}
 
 	// Returns the first piece owned by owner in a given square

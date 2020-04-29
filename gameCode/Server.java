@@ -18,6 +18,22 @@ public class Server {
 		this.handler = handler;
 	}
 
+	public static void printMsg(
+		String msg,
+		PrintWriter out,
+		BufferedReader in
+	) {
+		if (out == null) { // print in server
+			if (msg.substring(0,3).equals("QQ:")) { // remove QQ flag for server
+				System.out.println(msg.substring(3));	
+			} else {
+				System.out.println(msg);
+			}
+		} else { // print in client
+			out.println(msg);
+		}
+	}
+
 	public void connect() {
 		try {
 			System.out.println(
@@ -38,6 +54,7 @@ public class Server {
 			// take turns
 			int numPlayers = players.size();
 			while (!handler.gameEnded()) {
+				System.out.println("Sanity");
 				for (int i = 0; i < numPlayers; i++) {
 					if (i == 0) { 
 						handler.takeServerTurn(players.get(i));

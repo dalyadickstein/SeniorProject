@@ -5,8 +5,10 @@ JC = javac
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
+	gameCode/Bank.java \
 	gameCode/BoardGame.java \
 	gameCode/Client.java \
+	gameCode/Die.java \
 	gameCode/GameBoard.java \
 	gameCode/GamePiece.java \
 	gameCode/GameState.java \

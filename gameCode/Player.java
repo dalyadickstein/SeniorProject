@@ -14,7 +14,6 @@ public class Player {
 
 	public Player(int playerNum, ArrayList<GamePiece> pieces) {
 		this(playerNum, pieces, 0.0);
-		GameState.addPlayer(this);
 	}
 
 	public Player(int playerNum, double money) {
